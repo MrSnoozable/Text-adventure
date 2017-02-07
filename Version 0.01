@@ -1,0 +1,72 @@
+/*Text adventure C++ console application*/
+
+/*
+setting is a train zone out for a second and here your friend talking to you
+(decision on if friend/girlfriend/sister/mother
+could turn into murder myster????
+
+
+use different special characters for who is talking such as /|\ '|' \|/ L| O* #: ;'
+
+make it start with group of friends other friend backs you up before you fail too badly
+*/
+
+//Headers
+#include <iostream>
+#include <Windows.h>
+#include <string>
+using namespace std;
+
+
+
+struct Player {
+	string name;
+};
+
+//class/struct for best friend gender and affiliation
+
+void main() {
+	//bool helpCall = false;
+	//cout << "type 'H' at anytime for help";
+	short choice = 0;
+	cout << "'Hey!'\n";
+		cin.ignore();
+
+	cout << "...";
+		cin.ignore();
+
+	cout << "\n\n'Were you even listening to what I had to say?'";
+	cout << "(She doesn't seem very happy)\n(You best answer her soon)\n";
+
+
+	do {
+
+		cout << "1...Yes\n";
+		cout << "2...No\n";
+		cout << "3...No (with an apology)\n";
+		cout << "4...(Change the Subject)\n";
+		
+		if (choice != 1 || 2 || 3 || 4)
+			cout << "(Just type one of the four numbers buddy)\n";
+
+	} while (choice != 1 || 2 || 3 || 4);
+		
+	if (choice == 2 || 3) {
+		cout << "Well, at least you're honest about it\n";
+	}
+	else if (choice == 1)
+		cout << "Oh really? Then what was I talking about?\n";
+
+
+	//allow player multiple choice dialogue to instill choice in them
+	
+	//rant with best friend
+	//set gender and affiliation of best friend
+
+
+	// stranger enters scene asks for players name
+
+
+
+}
+//add help option
