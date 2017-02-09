@@ -1,0 +1,103 @@
+/*Text adventure C++ console application*/
+
+/*
+setting is a train zone out for a second and here your friend talking to you
+(decision on if friend/girlfriend/sister/mother
+could turn into murder myster????
+
+
+use different special characters for who is talking such as /|\ '|' \|/ L| O* #: ;'
+
+make it start with group of friends other friend backs you up before you fail too badly
+*/
+
+//Headers
+#include <iostream>
+#include <Windows.h>
+#include <string>
+using namespace std;
+
+//prototypes
+void FirstChoice(string input);
+void FirstChoiceBr1(string i);
+
+//Branch where friend asks what she was talking about
+void FirstChoiceBr1(string i) {
+	//answer friend 
+	cout << "1...Architecture";
+	cout << "2...Religion";
+	cout << "3...Locusts";
+	cout << "4...Trains";
+
+	cin >> i;
+
+
+}
+
+
+//first choice subroutine
+void FirstChoice(string input) {
+	//First player's decision
+	while (input != "1" && input != "2" && input != "3" && input != "4") {
+
+		cout << "1...Yes\n";
+		cout << "2...No\n";
+		cout << "3...No (with an apology)\n";
+		cout << "4...(Change the Subject)\n";
+		cin >> input;
+
+		if (input != "1" && input != "2" && input != "3" && input != "4")
+			cout << "(Just type one of the four numbers buddy)\n";
+
+	}
+
+	if (input == "2" || input == "3") {
+		cout << "Well, at least you're honest about it\n";
+	}
+	else if (input == "1") {
+		cout << "'Oh really? Then what was I talking about?'\n";
+		FirstChoiceBr1(input);
+	}
+}
+
+
+
+void main() {
+	//bool helpCall = false;
+	cout << "(type 'H' at anytime for help)";
+	string input;
+
+	cout << "'Hey!'\n";
+	cin.ignore();
+	cout << "...";
+	cin.ignore();
+
+	cout << "\n\n'Were you even listening to what I had to say?'\n";
+	cout << "(She doesn't seem very happy)\n(You best answer her soon)\n";
+
+	FirstChoice(input);
+	cout << "I was talking about trains\n";
+}
+
+/*Notes Section*/
+/*add help option
+
+
+struct Player {
+string name;
+};
+
+^class/struct for best friend gender and affiliation
+
+
+//set gender and affiliation of best friend
+
+
+// stranger enters scene asks for players name
+
+//string input accepted at anytime instead of choice. make options letters instead of short. run all options through external sub routines
+
+//add name to friend option, yourself, and affiliation with narrarator
+
+
+*/
