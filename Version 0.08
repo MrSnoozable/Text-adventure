@@ -1,0 +1,310 @@
+/*				Text adventure C++ console application			*/
+
+/********************************************************
+setting is a train zone out for a second and here your friend talking to you
+(decision on if friend/girlfriend/sister/mother
+could turn into murder myster????
+
+
+use different special characters for who is talking such as /|\ '|' \|/ L| O* #: ;'
+
+make it start with group of friends other friend backs you up before you fail too badly
+
+
+
+Add annoying narrarator value. increments if you fail to input correctly a certain number of times. Alternate ending.
+*********************************************************/
+
+//Headers
+#include <iostream>
+#include <Windows.h>
+#include <string>
+#include <ctime>
+using namespace std;
+
+
+//prototypes
+void FirstChoice(string);
+void FirstChoiceBr1(string);
+//void HelpSubRoutine();
+bool StrangerEncounter(string);
+void BioInput(string);
+
+
+class Characters {
+private:
+	string name;
+	int age, relationship, closeness = 0;
+
+public:
+
+	//mutators
+	void setAge(int a) { age = a; }
+	void setRelationships(int r) { relationship = r; }
+	void setName(string n) { name = n; }
+	void setCloseness(int c) { closeness += c; }
+
+
+	//accessors
+	int getAge() { return age; }
+	int getRelationship() { return relationship; }
+	int getCloseness() { return closeness; }
+	string getName() { return name; }
+};
+
+//global character objects
+//(too much planning to pass individually from main)
+//(consider fixing after layout is finished)
+Characters Player;
+Characters Companion;
+Characters BestFriend;
+
+/*************************************************************/
+//															 //
+//								HELP						 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+//Definition for outputting tips and available options
+//needs to pass in many many many many bools for ouput and nested ifs
+//void HelpSubRoutine(/*pass any variable info as arguments. sit/stand. friend/girlfriend. users name... etc.*/) {
+
+//}
+
+/*************************************************************/
+//															 //
+//					Stranger Encounter						 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+//when stranger approaches you with name introductions
+bool StrangerEncounter(string i) {
+
+	cout << "'Is this seat taken?'\n";
+	cout << "(He gestures to the seat next to you)\n(Your friend was sitting there, he's been gone for a while though)\n";
+
+	//choice
+	cout << "1...Allow him to sit\n";
+	cout << "2...Say that it's taken\n";
+
+	//starting interval before answering
+	clock_t start = clock();
+	cin >> i;
+	clock_t end = clock();
+
+	//timing check
+	if ((end - start) / (double)CLOCKS_PER_SEC >= 5) {
+		cout << "(You take several seconds before responding)\n(He then notices some stuff next to your friend's seat)\n";
+		cout << "Oh, It's not a big deal\n";
+		i = "2";
+	}
+
+
+	//false if standing
+	bool strangerSitting;
+
+
+	if (i == "1") {
+		cout << "(He sits down)\n";
+		strangerSitting = true;
+	}
+	else if (i == "2") {
+		cout << "(He remains standing)\n";
+		strangerSitting = false;
+	}
+
+
+	cout << "(He's an older fella with a cane and a very wrinkly forhead)\n";
+	cin.ignore();
+	
+	cout << "Makes me look like I'm scowling doesn't it (the man says with a smile)\n";
+	cout << "(you catch yourself staring and just awkwardly smile back)\n";
+	cin.ignore();
+	
+	cout << "Where you two headed to?\n";
+	//choice
+	cout << "1...Home\n";
+	cout << "2...Tell him it's not his business\n";
+	cout << "3...Let her answer\n";
+
+	cin >> i;
+
+	if (i == "1") {
+		cout << "Jeez, are you already to leave before we've even gotten their, your companion interjects suddenly\n";
+		Companion.setCloseness(-3);
+	}
+
+	if (i == "3" || i == "2") {
+		if (i == "2"){
+			cout << "Jeez No need to be so rude to the man, your companion interjects suddenly\n";
+			Companion.setCloseness(-1);
+		}
+		//friend reply
+		cout << "We're just going to the science museum that opened up\n";
+	}
+
+	return strangerSitting;
+}
+
+/*************************************************************/
+//															 //
+//				Interigation with companion					 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+//Branch where friend asks what she was talking about
+void FirstChoiceBr1(string i) {
+
+	//answer friend 
+	do	{
+		cout << "1...Architecture" << endl;
+		cout << "2...Religion" << endl;
+		cout << "3...Locusts" << endl;
+		cout << "4...Trains" << endl;
+
+		cin >> i;
+
+		if (i == "1" || i == "2" || i == "3") {
+			cout << "*sigh*\nI should've known...\n";
+		}
+		else if (i == "4") {
+			cout << "Wow you actually were paying attention\n" << endl;
+			//increment friendliness value
+		}
+		else {
+			cout << "(Just type one of the four numbers buddy)\n";
+		}
+	} while (i != "1" && i != "2" && i != "3" && i != "4");
+}
+
+/*************************************************************/
+//															 //
+//				Listening to conversation					 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+//first choice subroutine
+void FirstChoice(string input) {
+
+	//First player's decision
+	while (input != "1" && input != "2" && input != "3" && input != "4") {
+
+		cout << "1...Yes\n";
+		cout << "2...No\n";
+		cout << "3...No (with an apology)\n";
+		cout << "4...(Change the Subject)\n";
+
+		cin >> input;
+
+		//safety net
+		if (input != "1" && input != "2" && input != "3" && input != "4") {
+			cout << "(Just type one of the four numbers buddy)\n";
+		}
+	}
+
+	if (input == "2" || input == "3") {
+		cout << "Well, at least you're honest about it\n";
+		return;
+	}
+	else if (input == "1") {
+		cout << "'Oh really? Then what was I talking about?'\n";
+		FirstChoiceBr1(input);
+		return;
+	}
+	else if (input == "4") {
+		cout << "(You managed to distract her just long enough for another distraction to come along";
+		StrangerEncounter(input);
+	}
+}
+
+/*************************************************************/
+//															 //
+//							Main							 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+//main branch running subroutines
+void main() {
+	
+	string input;
+	
+	cout << "'Hey!'\n\n(Press Enter to Continue)";
+	cin.ignore();
+	cout << "...(One more time)\n";
+	cin.ignore();
+
+	cout << "\n\n'Were you even listening to what I had to say?'\n";
+	cout << "(She doesn't seem very happy)\n(You best answer her soon)\n";
+
+	//Interaction with companion
+	FirstChoice(input);
+	cout << "I was talking about trains\n";
+	cout << "(You look around and see the interior of a train)\n";
+
+	cout << "(A stranger approaches from your right as lush green mountains pass by in the opposite window)\n";
+	bool sitting = StrangerEncounter(input);
+
+	BioInput(input);
+	
+
+	//temporarily unavailable
+		/*
+		cout << "(type 'H' at anytime for help)\n";
+		//help subroutine call
+		if (input == "h" || input == "H")
+			HelpSubRoutine();
+		*/
+}
+
+void BioInput(string i) {
+
+	//asks for name
+	cout << "(the man holds his hand out to you)\nI'm allan by the way";
+	cout << "(you hold out your hand as well)\n";
+
+	cout << "My name is...";
+
+	//name input
+	string Name;
+	cin >> Name;
+	Player.setName(Name);
+
+	cout << "My name is " << Player.getName() << endl;
+	cin.ignore();
+	cout << "And what about you young miss\n(He gestures with his chin to your lady companion)";
+	cout << "\nYou introduce her as...";
+	cin >> i;
+
+	Companion.setName(i);
+
+	int relationshipInput;
+
+	cout << "She's...\n\n";
+	cout << "1...my Mom\n";
+	cout << "2...my Friend\n";
+	cout << "3...my Girlfriend\n";
+
+	//good result (playfully slaps your shoulder afterwards)
+	cout << "4...Unimportant\n";
+	cin >> relationshipInput;
+
+	Companion.setRelationships(relationshipInput);
+
+}
+
+/*************************************************************/
+//															 //
+//						Notes Section						 //
+//															 //	
+///////////////////////////////////////////////////////////////
+
+
+/*add help option: help will display "user bio"
+
+//set gender and affiliation of best friend
+// stranger enters scene asks for players name
+//string input accepted at anytime instead of choice. make options letters instead of short.
+run all options through external sub routines
+
+//add name to friend option, yourself, and affiliation with narrarator
+*/
